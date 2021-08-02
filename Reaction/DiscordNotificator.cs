@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace Reaction {
 
     internal class DiscordNotificator : Reactor, IDisposable {
+        public string ItemName { get; }
+
         private readonly WebClient dWebClient;
         private NameValueCollection discordValues = new NameValueCollection();
         public string WebHook { get; set;}
@@ -21,24 +23,30 @@ namespace Reaction {
             this.UserName = "AMD Snitch";
             this.ProfilePicture = null;
         }
-        public void react(string comment = "") {
-            SendMessage(comment + "Test");
+
+        public DiscordNotificator(Config config, string itemName) : this(config) {
+            this.ItemName = itemName;
         }
 
-        public void SendMessage(string content)
-            {
-                discordValues.Add("username", UserName);
-                discordValues.Add("content", content);
+        public void react(params string[] lines) {
+            var message = $"{ItemName} available!\n";
+            message += String.Join("\n", lines);
+            SendMessage(message);
+        }
 
-                if (ProfilePicture != null) {
-                    discordValues.Add("avatar_url", ProfilePicture);
-                }
-    
-                dWebClient.UploadValues(WebHook, discordValues);
+        public void SendMessage(string content) {
+            Console.WriteLine("Informing Discord...");
+            discordValues.Add("username", UserName);
+            discordValues.Add("content", content);
+
+            if (ProfilePicture != null) {
+                discordValues.Add("avatar_url", ProfilePicture);
             }
     
-        public void Dispose()
-        {
+            dWebClient.UploadValues(WebHook, discordValues);
+        }
+    
+        public void Dispose() {
             dWebClient.Dispose();
         }
     }

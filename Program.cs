@@ -2,6 +2,7 @@
 using System.IO;
 
 using Reaction;
+using Scraping;
 
 namespace AmdSnitch
 {
@@ -16,11 +17,12 @@ namespace AmdSnitch
             }
 
             var scraper = new Scraper(
+                new DiscordNotificator(config, "TEST CARD"),
                 new AmdReader()
-            )
+            );
 
-            var notificator = new DiscordNotificator(config);
-            notificator.react("Test");
+            scraper.ScrapeAndReact();
+
         }
     }
 }

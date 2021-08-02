@@ -6,13 +6,15 @@ using System.Net;
 using System.Text;
 using System.IO;
 
-public class AmdReader : AbstractReader{
+namespace Scraping {
+    public class AmdReader : Reader {
 
-    public static bool ScrapeAvailability() {
-        return true;
-    }
-    public static double ScrapePrice() {
-        return 42.0;
-    }
+        public bool ScrapeAvailability() {
+            return true;
+        }
+        public double ScrapePrice() {
+            return 42.0;
+        }
 
+    }
 }

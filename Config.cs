@@ -10,6 +10,7 @@ public class Config {
 
     public Config() {
         UrlsToWatch = ReadUrls(UrlFilePath);
+        NotificationTarget = ReadWebHook();
     }
 
     private IEnumerable<string> ReadUrls(string path) {
@@ -28,5 +29,9 @@ public class Config {
         }
 
         return buffer;
+    }
+
+    private string ReadWebHook() {
+        return File.ReadAllText("webhook.txt").Trim();
     }
 }
